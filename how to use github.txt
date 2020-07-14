@@ -1,0 +1,25 @@
+1. git初始化（最外层文件夹GIT，只需初始化一次）
+   -> git config --global user.name "tianyaooooo"
+   -> git config --global user.email "527435732@qq.com"
+   该设置在github仓库主页显示谁提交了该文件
+   
+   
+==========================================================================
+
+
+2. 创建一个仓库（创建一个文件夹），两种方式：clone； 在文件内初始化git（使其成为一个git仓库）
+   -> git clone 仓库地址（已在github上创建，复制即可， 不用再init）
+      -> 新建文件夹 mkdir 文件夹名
+      -> 转到文件夹 cd 文件夹名
+      -> 创建文件 touch xxx.xx (例如 a1.cpp) -> 然后可以打开并编辑a1
+      -> 文件状态查看（工作区、缓存区、仓库）git status
+      -> 保存至缓存区 git add xxx.xx 或 git add . (全部)
+      -> 保存至本地仓库 git commit -m '描述'
+      -> 保存至远程仓库 git push
+      -> 查看所有文件 ls
+      -> 修改文件 直接点开文件修改并保存 status状态会变为modify
+      -> 删除文件 直接删 或 rm -rf xxx.xx -> git rm xxx.xx (删缓存区文件) -> commit提交（删本地仓库文件）
+   -> 新建一个文件夹，并在文件夹内初始化 git init， 之后添加、修改、删除、保存、提交文件同上
+      -> git与远程仓库关联 git remote add origin + github上某仓库地址
+      -> pull git 代码 git pull origin master 或 git pull origin master --allow-unrelated-histories
+      -> git push origin master

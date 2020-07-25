@@ -29,7 +29,8 @@ bool is_full(struct Arr * pArr);
 void sort_arr();
 // 显示数组 
 void show_arr(struct Arr * pArr);
-void reverse_arr();
+// 倒置数组 
+void reverse_arr(struct Arr * pArr);
 
 int main ()
 {
@@ -45,6 +46,8 @@ int main ()
 	insert_arr(&arr, 4, 88);
 	insert_arr(&arr, -1, 77);
 	delete_arr(&arr, 1, &val);
+	show_arr(&arr);
+        reverse_arr(&arr);
 	show_arr(&arr);
 	return 0;
 }
@@ -159,7 +162,23 @@ bool delete_arr(struct Arr * pArr, int pos, int * pVal)
 	// 此处可以判断 cnt 与 len 的关系，若小于某阈值，则动态 shrink 数组，类似 extend_arr，减小空间复杂度，同时时间复杂度没有显著增加（摊还分析） 	
 }
 
-
+// 注意这里不仅仅是要求输出时逆序显示，而是要求数组本身逆序 
+void reverse_arr(struct Arr * pArr)
+{
+	int left, right;
+	left = 0;
+	right = pArr->cnt - 1; 
+	while (left < right)
+	{
+		int temp;
+		temp = pArr->pBase[left];
+		pArr->pBase[left] = pArr->pBase[right];
+		pArr->pBase[right] = temp;
+		left++;
+		right--;
+	} 
+	return;
+} 
 
 void show_arr(struct Arr * pArr)
 {

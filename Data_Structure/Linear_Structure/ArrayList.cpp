@@ -21,12 +21,16 @@ bool append_arr(struct Arr * pArr, int val);
 bool insert_arr(struct Arr * pArr, int pos, int val);
 // 删除数组中的第 pos 个元素前，1 <= pos <= cnt，并记录删除的元素是什么 
 bool delete_arr(struct Arr * pArr, int pos, int * pVal);
-int get();
+// 返回给定 index 在数组中对应的值 （略） 
+int get_arr(struct Arr * pArr, int index);
+// 在数组中寻找给定值，并返回其下标，不存在则返回-1 
+int find_arr(struct Arr * pArr, int val); 
 // 判断数组是否为空 
 bool is_empty(struct Arr * pArr);
 // 判断数组是否已满 
 bool is_full(struct Arr * pArr);
-void sort_arr();
+// 数组元素升序排列 
+void sort_arr(struct Arr * pArr);
 // 显示数组 
 void show_arr(struct Arr * pArr);
 // 倒置数组 
@@ -34,7 +38,7 @@ void reverse_arr(struct Arr * pArr);
 
 int main ()
 {
-  struct Arr arr;
+	struct Arr arr;
 	int initlen = 2;
 	int a = 2;
 	int val;
@@ -44,11 +48,19 @@ int main ()
 	append_arr(&arr, 3);
 	insert_arr(&arr, 1, 99);
 	insert_arr(&arr, 4, 88);
-	insert_arr(&arr, -1, 77);
-	delete_arr(&arr, 1, &val);
+	//insert_arr(&arr, -1, 77); // 插入失败！插入范围越界！ 
 	show_arr(&arr);
-        reverse_arr(&arr);
+	if (delete_arr(&arr, 1, &val))
+	{
+		cout<<"删除成功！您删除的元素是："<<val<<endl; 
+	}
 	show_arr(&arr);
+	reverse_arr(&arr);
+	show_arr(&arr);
+	sort_arr(&arr);
+	show_arr(&arr);
+	int index = find_arr(&arr, 99);
+	cout<<index<<endl;
 	return 0;
 }
  
@@ -124,7 +136,7 @@ bool insert_arr(struct Arr * pArr, int pos, int val) //pos 从1开始
 {
 	if (pos < 1 || pos > pArr->cnt)
 	{
-		cout << "插入范围越界！"<<endl;
+		cout << "插入失败！插入范围越界！"<<endl;
 		return false; 
 	}
 	for (int i = pArr->cnt - 1; i >= pos - 1; i--)
@@ -149,7 +161,7 @@ bool delete_arr(struct Arr * pArr, int pos, int * pVal)
 	} 
 	if (pos < 1 || pos > pArr->cnt)
 	{
-		cout << "删除范围越界！"<<endl;
+		cout << "删除失败！删除范围越界！"<<endl;
 		return false; 
 	}
 	* pVal = pArr->pBase[pos-1];
@@ -159,7 +171,9 @@ bool delete_arr(struct Arr * pArr, int pos, int * pVal)
 	} 
 	pArr->cnt--; 
 	return true;
-	// 此处可以判断 cnt 与 len 的关系，若小于某阈值，则动态 shrink 数组，类似 extend_arr，减小空间复杂度，同时时间复杂度没有显著增加（摊还分析） 	
+	// 此处可以判断 cnt 与 len 的关系，若小于某阈值，
+    // 则动态 shrink 数组，类似 extend_arr，减小空间复杂度，同时时间复杂度没有显著增加（摊还分析） 
+	
 }
 
 // 注意这里不仅仅是要求输出时逆序显示，而是要求数组本身逆序 
@@ -180,6 +194,38 @@ void reverse_arr(struct Arr * pArr)
 	return;
 } 
 
+// 以冒泡排序为例 
+void sort_arr(struct Arr * pArr)
+{
+	for (int i = 0; i < pArr->cnt - 1; i++)
+	{
+		for (int j = 0; j < pArr->cnt - 1 - i; j++)
+		{
+			if (pArr->pBase[j] > pArr->pBase[j + 1])
+			{
+				int temp;
+				temp = pArr->pBase[j];
+				pArr->pBase[j] =  pArr->pBase[j + 1];
+				pArr->pBase[j + 1] = temp;
+			}
+			
+		}	
+	} 
+    return; 
+} 
+
+int find_arr(struct Arr * pArr, int val)
+{
+	for (int i = 0; i < pArr->cnt; i++)
+	{
+		if (pArr->pBase[i] == val)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
 void show_arr(struct Arr * pArr)
 {
 	if (is_empty(pArr))
@@ -195,4 +241,3 @@ void show_arr(struct Arr * pArr)
 		cout<<endl;
 	}	
 } 
- 

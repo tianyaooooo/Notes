@@ -22,12 +22,13 @@ j = * p; // 等价于j = i
 
 p 指向 i，* p就是 i 本身，即所有出现 * p 的地方都可以换成 i，所有出现 i 的地方都可以换成 * p；  
 
-常量和表达式前不能加 &，如 * (3+5) 错。  
+常量和表达式前不能加 &，如 & (3+5) 错。  
 
 **另：如何通过 被调函数 修改 主调函数中普通变量的值？**  
     实参为相关变量的地址；  
     形参为以该变量的类型为类型的指针变量；  
     在被调函数中通过 *形参变量名 的方式就可以修改主函数中变量的值  
+    
 ```C++
 void f (int * p)
 {
@@ -72,6 +73,25 @@ int main ()
 ```
 注意：普通结构体变量和结构体指针变量作为函数传参，推荐第二种，因为只发送地址，只占4个字节，内存消耗少，若用方式一，如上例子中定义的结构体，需要发送大于208个字节的信息。  
 
+**另：关于 typedef 的用法**  
+
+```C++
+typedef int HAHA; // 为 int 再重新多取一个名字，HAHA 等价于 int 
+
+typedef struct Student
+{
+	int sid;
+	char name[200];
+	int age;
+}ST, * PST; // PST 代表了 struct Student * , ST 代表了 struct Student 
+
+int main()
+{
+	ST st; // 等价于 struct Student st;
+	PST pst = &st; // 等价于 ST * pst = &st; 等价于 struct Student * pst = &st; 
+	return 0;
+}
+```
 ## 2.4 动态内存的分配和释放
 
 ```C++
